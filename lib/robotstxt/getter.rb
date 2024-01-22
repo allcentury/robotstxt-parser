@@ -6,7 +6,8 @@ module Robotstxt
     def obtain(source, robot_id, options)
       options = {
         :num_redirects => 5,
-        :http_timeout => 10
+        :http_timeout => 10,
+        :open_timeout => 10,
       }.merge(options)
 
       robotstxt = if source.is_a? Net::HTTP
@@ -15,6 +16,7 @@ module Robotstxt
         uri = objectify_uri(source)
         http = Net::HTTP.new(uri.host, uri.port)
         http.read_timeout = options[:http_timeout]
+        http.open_timeout = options[:open_timeout]
         if uri.scheme == 'https'
           http.use_ssl = true
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
