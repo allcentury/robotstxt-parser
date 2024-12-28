@@ -13,9 +13,12 @@ module Robotstxt
         # string into the function. Unfortunately URI.escape does not respect
         # all characters that have meaning in HTTP (esp. #), so we are forced
         # to state exactly which characters we would like to escape.
-        pattern = %r{[^!$#%&'()*+,\-./0-9:;=?@A-Z_a-z~]}
-        parser = URI::Parser.new(:ESCAPED => pattern)
-        parser.parse(uri)
+        # pattern = %r{[^!$#%&'()*+,\-./0-9:;=?@A-Z_a-z~]}
+        # parser = URI::Parser.new(:ESCAPED => pattern)
+        # parser.parse(uri)
+        # Modern approach using encode_uri_component
+        encoded_uri = URI.encode_uri_component(uri)
+        parsed_uri = URI.parse(encoded_uri)
       else
         uri
       end
